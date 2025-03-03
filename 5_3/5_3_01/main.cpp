@@ -1,30 +1,35 @@
 #include <iostream>
 
 class smart_array {
-	int size;	// Размер массива
-	int* arr;	// Массив
-	int pos;	// Текущая ползиция
+	int size;	// Р Р°Р·РјРµСЂ РјР°СЃСЃРёРІР°
+	int* arr;	// РњР°СЃСЃРёРІ
+	int pos;	// РўРµРєСѓС‰Р°СЏ РїРѕР»Р·РёС†РёСЏ
 public:
 	smart_array(int num) {
 		size = num;
 		arr = new int[num];
 		pos = 0;
 	}
-	
-	// Добавление элемента в массив
+
+	// Р”РѕР±Р°РІР»РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° РІ РјР°СЃСЃРёРІ
 	void add_element(int num) {
-		if (pos < size - 1) {
+		if (pos < size) {
 			arr[pos] = num;
 			pos++;
 		}
+		else {
+			throw std::exception("Index out of range.");
+		}
 	}
 
-	// Получение элемента из массива
+	// РџРѕР»СѓС‡РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° РёР· РјР°СЃСЃРёРІР°
 	int get_element(int num) {
-		if (num < size - 1) {
+		if (num < size) {
 			return arr[num];
 		}
-			return 0; 
+		else {
+			throw std::exception("Index out of range.");
+		}
 	}
 
 	~smart_array() {
@@ -48,4 +53,4 @@ int main() {
 	}
 
 	return 0;
-}
+ }

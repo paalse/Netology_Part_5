@@ -1,9 +1,9 @@
 #include <iostream>
 
 class smart_array {
-	int size;	// Размер массива
-	int* arr;	// Массив
-	int pos;	// Текущая ползиция
+	int size;	// Р Р°Р·РјРµСЂ РјР°СЃСЃРёРІР°
+	int* arr;	// РњР°СЃСЃРёРІ
+	int pos;	// РўРµРєСѓС‰Р°СЏ РїРѕР»Р·РёС†РёСЏ
 public:
 	smart_array(int num) {
 		size = num;
@@ -11,23 +11,28 @@ public:
 		pos = 0;
 	}
 
-	// Добавление элемента в массив
+	// Р”РѕР±Р°РІР»РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° РІ РјР°СЃСЃРёРІ
 	void add_element(int num) {
 		if (pos < size) {
 			arr[pos] = num;
 			pos++;
 		}
+		else {
+			throw std::exception("Index out of range.");
+		}
 	}
 
-	// Получение элемента из массива
+	// РџРѕР»СѓС‡РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° РёР· РјР°СЃСЃРёРІР°
 	int get_element(int num) {
 		if (num < size) {
 			return arr[num];
 		}
-		return 0;
+		else {
+			throw std::exception("Index out of range.");
+		}
 	}
 
-	int getSize() { 
+	int getSize() {
 		return size;
 	}
 
@@ -39,7 +44,7 @@ public:
 		return pos;
 	}
 
-	// Перегрузка оператора =
+	// РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° =
 	smart_array& operator = (smart_array& other) {
 		if (this != &other) {
 			size = other.getSize();
@@ -51,7 +56,7 @@ public:
 		return *this;
 	}
 
-	// Вывод массива в консоль
+	// Р’С‹РІРѕРґ РјР°СЃСЃРёРІР° РІ РєРѕРЅСЃРѕР»СЊ
 	void print() {
 		for (int i = 0; i < size; i++) {
 			std::cout << arr[i] << " ";
@@ -82,13 +87,12 @@ int main() {
 		new_array.print();
 
 		arr = new_array;
-		
+
 		std::cout << "arr: ";
 		arr.print();
 	}
 	catch (const std::exception& ex) {
 		std::cout << ex.what() << std::endl;
 	}
-
 	return 0;
 }
