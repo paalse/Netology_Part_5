@@ -18,20 +18,36 @@ class MyVector {
   int capacityArr;
 
   // Увеличение размера контейнера
-  void addCapacity() { 
-      T* arr_new = new T[capacityArr * 2];
-      std::copy(arr, arr + sizeArr, arr_new);
-      delete[] arr;
-      arr = arr_new;
-      capacityArr *= 2;
+  void addCapacity() {
+    T* arr_new = new T[capacityArr * 2];
+    std::copy(arr, arr + sizeArr, arr_new);
+    delete[] arr;
+    arr = arr_new;
+    capacityArr *= 2;
   }
 
  public:
   MyVector() : arr(new T[1]), sizeArr(0), capacityArr(1) {}
 
+  MyVector(const MyVector<T>& myVec)
+      : sizeArr(myVec.sizeArr), capacityArr(myVec.capacityArr) {
+    arr = new T[myVec.capacityArr];
+    std::copy(myVec.arr, myVec.arr + myVec.sizeArr, arr);
+  }
+
+  // Перегрузка оператора =
+  MyVector& operator=(MyVector& other) {
+    if (this != &other) {
+      sizeArr = other.sizeArr;
+      capacityArr = other.capacityArr;
+      std::copy(other.arr, other.arr + other.sizeArr, arr);
+    }
+    return *this;
+  }
+
   // Получение значения по индексу
-  T at(int index) {
-    if (index < 0 || index > sizeArr) {
+  T at(size_t index) {
+    if (index > sizeArr) {
       throw std::out_of_range("Index out of range");
     }
     return arr[index];
@@ -39,18 +55,15 @@ class MyVector {
 
   // Добавление элемента в конец контейнера
   void push_back(T value) {
-    if (sizeArr < capacityArr) {
-      arr[sizeArr] = value;
-      sizeArr++;
-    } else {
+    if (sizeArr == capacityArr) {
       addCapacity();
-      arr[sizeArr] = value;
-      sizeArr++;
     }
+    arr[sizeArr] = value;
+    sizeArr++;
   };
 
   // Получение количества элементов в контейнере
-  int size() { return sizeArr;};
+  int size() { return sizeArr; };
 
   // Получение емкости контейнера
   int capacity() { return capacityArr; };
@@ -67,18 +80,39 @@ class MyVector {
   ~MyVector() { delete[] arr; }
 };
 
-int main() { 
-    MyVector<int> myVect;
+int main() {
+  MyVector<int> myVect;
 
-    std::cout << "MyVector: ";
-    myVect.push_back(6);
-    myVect.push_back(5);
-    myVect.push_back(7);
-    myVect.push_back(3);
-    myVect.push_back(4);
-    myVect.print();
-    std::cout << "MyVector.at(0): " << myVect.at(0) << std::endl;
-    std::cout << "Size: " << myVect.size() << std::endl;
-    std::cout << "Capacity: " << myVect.capacity() << std::endl;
+  myVect.push_back(6);
+  myVect.push_back(5);
+  myVect.push_back(7);
+  myVect.push_back(3);
+  myVect.push_back(4);
+  std::cout << "MyVector: ";
+  myVect.print();
+  std::cout << "MyVector.at(0): " << myVect.at(0) << std::endl;
+  std::cout << "Size: " << myVect.size() << std::endl;
+  std::cout << "Capacity: " << myVect.capacity() << std::endl;
+  std::cout << std::endl;
 
-    return 0; }
+  // Использование конструктора копирования
+  MyVector<int> myVect1(myVect);
+  myVect1.push_back(2);
+  std::cout << "MyVector1: ";
+  myVect1.print();
+  std::cout << "MyVector1.at(5): " << myVect1.at(5) << std::endl;
+  std::cout << "Size: " << myVect1.size() << std::endl;
+  std::cout << "Capacity: " << myVect1.capacity() << std::endl;
+  std::cout << std::endl;
+
+  // Переопределение оператора присвоения
+  myVect = myVect1;
+  std::cout << "MyVector: ";
+  myVect.print();
+  std::cout << "MyVector.at(0): " << myVect.at(0) << std::endl;
+  std::cout << "Size: " << myVect.size() << std::endl;
+  std::cout << "Capacity: " << myVect.capacity() << std::endl;
+  std::cout << std::endl;
+
+  return 0;
+}
