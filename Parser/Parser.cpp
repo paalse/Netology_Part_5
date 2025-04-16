@@ -2,6 +2,7 @@
 #include <iostream>
 #include <Windows.h>
 #include "ini_parser.h"
+#include "ini_parser_template.h"
 
 int main() {
 
@@ -15,7 +16,7 @@ int main() {
 
 		std::cout << "Section3.Vid = ";
 		auto value1 = parser.get_value<double>("Section3.Vid");
-		std::cout << value << std::endl;
+		std::cout << value1 << std::endl;
 	}
 	catch (const std::exception& ex) {
 		std::cout << ex.what() << std::endl;

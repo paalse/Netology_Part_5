@@ -46,13 +46,3 @@ fin.open(filename);
 	}
 	fin.close();
 }
-
-
-// Получение значения с типом строка
-template<>
-std::string ini_parser::get_value(std::string param) {
-	if (!iniData.count(param)) {
-		throw std::exception("No data found!");
-	}
-	return iniData[param];
-}

@@ -31,5 +31,8 @@
     <ClInclude Include="ini_parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ini_parser_template.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
