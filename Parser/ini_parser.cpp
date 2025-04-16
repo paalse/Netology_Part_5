@@ -2,16 +2,16 @@
 
 ini_parser::ini_parser(std::string filename) {
 fin.open(filename);
-	// Опроверка корректности открытия файла
+	// РћРїСЂРѕРІРµСЂРєР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚Рё РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р°
 	if (!fin.is_open()) {
 		throw std::invalid_argument(filename + " could not be opened!");
 	}
 
-	// Разбор каждой cтроки файла
+	// Р Р°Р·Р±РѕСЂ РєР°Р¶РґРѕР№ cС‚СЂРѕРєРё С„Р°Р№Р»Р°
 	while (std::getline(fin, line))
 	{
-		if (!line.empty()) {	// Проверяем не пустали ли строка
-			line = ltrim(line);	// Убираем пробелы и спец символы в начале строки
+		if (!line.empty()) {	// РџСЂРѕРІРµСЂСЏРµРј РЅРµ РїСѓСЃС‚Р°Р»Рё Р»Рё СЃС‚СЂРѕРєР°
+			line = ltrim(line);	// РЈР±РёСЂР°РµРј РїСЂРѕР±РµР»С‹ Рё СЃРїРµС† СЃРёРјРІРѕР»С‹ РІ РЅР°С‡Р°Р»Рµ СЃС‚СЂРѕРєРё
 
 			if (line[0] == '[') {	//
 				pos = line.find_first_of(']');
@@ -21,25 +21,25 @@ fin.open(filename);
 				}
 			}
 			else if (line[0] != ';') {
-				// Убираем комментарий в строке с переменной, если они есть
+				// РЈР±РёСЂР°РµРј РєРѕРјРјРµРЅС‚Р°СЂРёР№ РІ СЃС‚СЂРѕРєРµ СЃ РїРµСЂРµРјРµРЅРЅРѕР№, РµСЃР»Рё РѕРЅРё РµСЃС‚СЊ
 				pos = line.find_last_of(";");
 				if (std::string::npos != pos)
 					line.erase(line.begin() + pos, line.end());
 
-				// Убираем пробелы в конце строки
+				// РЈР±РёСЂР°РµРј РїСЂРѕР±РµР»С‹ РІ РєРѕРЅС†Рµ СЃС‚СЂРѕРєРё
 				line = rtrim(line);
 
-				// Вычленяем название переменной и ее значение
+				// Р’С‹С‡Р»РµРЅСЏРµРј РЅР°Р·РІР°РЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№ Рё РµРµ Р·РЅР°С‡РµРЅРёРµ
 				pos = line.find_first_of("=");
 				currentVariable = rtrim(line.substr(0, pos));
 				currentVariableValue = ltrim(line.substr(pos + 1, line.length() - 1));
 
-				// Сохранение значения в коллекции
-				if (!iniData.count(currentSection + "." + currentVariable)) {	// Проверка наличия переменной в коллекции
-					iniData.insert({ currentSection + "." + currentVariable,currentVariableValue }); // Вставить новое значение 
+				// РЎРѕС…СЂР°РЅРµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ РІ РєРѕР»Р»РµРєС†РёРё
+				if (!iniData.count(currentSection + "." + currentVariable)) {	// РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ РїРµСЂРµРјРµРЅРЅРѕР№ РІ РєРѕР»Р»РµРєС†РёРё
+					iniData.insert({ currentSection + "." + currentVariable,currentVariableValue }); // Р’СЃС‚Р°РІРёС‚СЊ РЅРѕРІРѕРµ Р·РЅР°С‡РµРЅРёРµ 
 				}
 				else {
-					iniData[currentSection + "." + currentVariable] = currentVariableValue;	// Изменить значение переменной
+					iniData[currentSection + "." + currentVariable] = currentVariableValue;	// РР·РјРµРЅРёС‚СЊ Р·РЅР°С‡РµРЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№
 				}
 			}
 		}
